@@ -1,10 +1,13 @@
 let longitude;
 let latitude;
+let locationCountry;
+let locationName;
 const temperatureDescription = document.querySelector(
   ".temperature-description"
 );
 const temperatureDegree = document.querySelector(".temperature-degree");
 const locationTimezone = document.querySelector(".location-timezone");
+const locationInfo = document.querySelector(".location-info");
 const temperatureSection = document.querySelector(".temperature");
 const temperatureSpan = document.querySelector(".temperature span");
 
@@ -14,6 +17,19 @@ window.addEventListener("load", () => {
       longitude = position.coords.longitude;
       latitude = position.coords.latitude;
 
+      // Fetch city name using reverse geolocation
+      const locationApi = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=808c5178d83a7659bb9f7dccf12604e0`;
+
+      fetch(locationApi)
+        .then((response) => response.json())
+        .then((locationData) => {
+          console.log(locationData);
+          locationCountry = locationData[0].country;
+          console.log(locationCountry);
+          locationName = locationData[0].name;
+        });
+
+      // Fetch weather info
       const api = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,weathercode&current_weather=true&timezone=auto`;
 
       fetch(api)
@@ -25,6 +41,7 @@ window.addEventListener("load", () => {
           temperatureDegree.textContent = temperature;
           temperatureDescription.children[0].textContent = `Windpeed: ${windspeed} Km/h`;
           locationTimezone.textContent = `Timezone: ${data.timezone}`;
+          locationInfo.textContent = `Country: ${locationCountry}, City: ${locationName}`;
 
           //   Make a switch statement to cover all weathercodes
           switch (weathercode) {

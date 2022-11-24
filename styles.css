@@ -24,6 +24,10 @@ body {
   align-items: center;
 }
 
+.location {
+  flex-direction: column;
+}
+
 .temperature {
   flex-direction: column;
 }

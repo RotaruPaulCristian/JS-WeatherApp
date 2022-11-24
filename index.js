@@ -18,14 +18,12 @@ window.addEventListener("load", () => {
       latitude = position.coords.latitude;
 
       // Fetch city name using reverse geolocation
-      const locationApi = `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=808c5178d83a7659bb9f7dccf12604e0`;
+      const locationApi = `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=1&appid=808c5178d83a7659bb9f7dccf12604e0`;
 
       fetch(locationApi)
         .then((response) => response.json())
         .then((locationData) => {
-          console.log(locationData);
           locationCountry = locationData[0].country;
-          console.log(locationCountry);
           locationName = locationData[0].name;
         });
 
